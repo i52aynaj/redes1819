@@ -221,9 +221,9 @@ while(1)
 
             	opcion = leercadena(buffer);
 
-              if(opcion[0]!="usuario" and opcion[0]!="password" and opcion[0]!="register" and opcion[0]!="iniciar-partida")
+              if(opcion[0]!="usuario" and opcion[0]!="password" and opcion[0]!="registro" and opcion[0]!="iniciar-partida")
               {
-                if(opcion[0]!="disparo" and opcion[0]!="salir")
+                if(opcion[0]!="descubrir" and opcion[0]!="salir" and opcion[0]!="poner-bandera")
                 {
                   send(i,"\e[1;91mComando desconocido.\e[0m",strlen("\e[1;91mComando desconocido.\e[0m"),0);
                 }
@@ -274,7 +274,7 @@ while(1)
   								}
   						}
 
-              if (opcion[0]=="register")
+              if (opcion[0]=="registro")
               {
             		if (autenticar[i].autenticarUsuario(opcion[2]))
             		{
@@ -301,7 +301,7 @@ while(1)
                   else if (opcion[0]=="iniciar-partida" and autenticar[i].getConectado() and autenticar[i].getJugando()==false and contPart<16)
                   {
                     cont++;
-					          for (n=0; n<15; n++)
+					          for (n=0; n<10; n++)
 					            { 
 
                     		if (cont==1)
@@ -357,19 +357,19 @@ while(1)
                   }
               }
 
-              if (opcion[0]=="disparo" )
+              if (opcion[0]=="descubrir" )
               {
-                if (opcion[0]=="disparo" and not autenticar[i].getConectado() )
+                if (opcion[0]=="descubrir" and not autenticar[i].getConectado() )
                 {
                  send(i,"Debe loguearse primero en el sistema",strlen("Debe loguearse primero en el sistema"),0); 
                 }
 
-                if ( opcion[0]=="disparo" and not autenticar[i].getJugando())
+                if ( opcion[0]=="descubrir" and not autenticar[i].getJugando())
                 {
                 send(i,"\e[1;91m-Err. Debes estar en una partida para usar este comando.\e[0m\n",strlen("\e[1;91m-Err. Debes estar en una partida para usar este comando.\e[0m\n"),0);
                 }
 
-                if (opcion[0]=="disparo" and autenticar[i].getConectado() and autenticar[i].getJugando() )
+                if (opcion[0]=="descubrir" and autenticar[i].getConectado() and autenticar[i].getJugando() )
                 {
                   
                   if (autenticar[i].getPartida()==n)
