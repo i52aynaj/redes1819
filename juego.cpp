@@ -53,7 +53,16 @@ void Juego::InicializarTablero1()
 {
 	for (int i=0; i<20; i++)
 	{
-		tableroM1_[rand()%10][rand()%10]= '*';
+
+    do
+    {
+      int acceso1=rand()%10;
+      int acceso2=rand()%10;
+
+    }while (tableroM1_[acceso1][acceso2]== '*')
+
+    tableroM1_[acceso1][acceso2]= '*';
+
 	}
 }
 
@@ -61,9 +70,17 @@ void Juego::InicializarTablero2()
 {
 		for (int i=0; i<20; i++)
 	{
-		tableroM2_[rand()%10][rand()%10]= '*';
-	}
+   
+    do
+    {
+      int acceso1=rand()%10;
+      int acceso2=rand()%10;
 
+    }while (tableroM2_[acceso1][acceso2]== '*')
+
+    tableroM2_[acceso1][acceso2]= '*';
+
+  }
 }
 
 
@@ -72,10 +89,10 @@ void Juego::TransformarMatrizM1()
 
   for (int i=0; i<10; i++){
     for (int j=0; j<10; j++){
-      if (tableroM1_[i][j] == 0)
-        tableroM1_[i][j] = 'A';
+      if (tableroM1_[i][j] == '*')
+        
       else
-        tableroM1_[i][j] = 'B';
+        tableroM1_[i][j] = '-';
     }
   }
 
@@ -86,10 +103,10 @@ void Juego::TransformarMatrizM2()
 
   for (int i=0; i<10; i++){
     for (int j=0; j<10; j++){
-      if (tableroM2_[i][j] == 0)
-        tableroM2_[i][j] = 'A';
+      if (tableroM2_[i][j] == "*")
+
       else
-        tableroM2_[i][j] = 'B';
+        tableroM2_[i][j] = '-';
     }
   }
 
@@ -97,7 +114,7 @@ void Juego::TransformarMatrizM2()
 
 void Juego::ImprimirTableroPropio(){
 
-  printf ("    A B C D E F G H I J\n   ---------------------");
+  printf ("    1 2 3 4 5 6 7 8 9 10\n   ---------------------");
 
   for (int i=0; i<10; i++)
   {

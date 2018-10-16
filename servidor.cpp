@@ -20,7 +20,7 @@
 #include "juego.cpp"
 
 #define MSG_SIZE 250
-#define MAX_CLIENTS 30
+#define MAX_CLIENTS 20
 
 using namespace std;
 
@@ -584,17 +584,16 @@ while (std::getline(x,segment, ' '))
 return seglist;
 }
 				
-bool comprobar(char letra ,int posicion)
+bool comprobar(int posicion1 ,int posicion)
 {
-  if (letra=='a' or letra=='b' or letra=='c' or letra=='d' or letra=='e' or letra=='f' or letra=='g' or letra=='h' or letra=='i' or letra=='j')
-  {
-    if (posicion>0 or posicion<11)
+
+    if ((posicion1>0 or posicion1<11) and (posicion>0 or posicion<11))
       return true;
+    
 
   return false;
   }
 
-return false;  
 }
 
 void convertiracadena1(Juego juego,int p1)

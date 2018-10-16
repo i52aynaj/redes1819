@@ -96,7 +96,7 @@ int main (int argc,char *argv[])
             strcpy(buffer2, buffer);
             opcion =strtok(buffer2, ",");
 
-            if ( strcmp(opcion, "A")==0 or strcmp(opcion, "B")==0 or strcmp(opcion, "X")==0)
+            if ( strcmp(opcion, "-")==0 or strcmp(opcion, "*")==0 or strcmp(opcion, "X")==0)
             {
             dibujartablero(buffer);
         	}
@@ -151,7 +151,7 @@ void dibujartablero(char *cadena)
 {
 int t=0;
 std::cout << "\33[2J";
-printf ("    A B C D E F G H I J\n   ---------------------");
+printf ("    1 2 3 4 5 6 7 8 9 10\n   ---------------------");
 
   for (int i=0; i<10; i++)
   {
