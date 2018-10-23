@@ -45,7 +45,7 @@ int main ( )
     int i,j,k;
 	int recibidos;
     char identificador[MSG_SIZE];
-    char usuario[MSG_SIZE], pass[MSG_SIZE], reg[MSG_SIZE];
+    char usuario[MSG_SIZE], pass[MSG_SIZE], reg[MSG_SIZE], param1[MSG_SIZE], param2[MSG_SIZE];
     int registrado = 0;
     
     int on, ret;
@@ -203,21 +203,32 @@ int main ( )
 
 		                             	  	//Comprobar pass
 		                             	  	strcpy(reg, &buffer[9]);
-		                             	  	if(strstr(reg, "-u") != NULL || strstr(reg,"-p") != NULL){//Las opciones están bien
+		                             	  	sscanf(reg,"%s %s %s %s", param1, usuario, param2, pass);
 
-		                             	  		sscanf(reg,"-u %s -p %s", usuario, pass);
-
+		                             	  	if(strcmp(param1, "-u") == 0 && strcmp(param2, "-p") == 0){//Las opciones están bien
 		                             	  		if(validarUsuario(usuario) == 1)
 		                             	  			send(new_sd,"El nombre de usuario ya se encuentra registrado\n", strlen("El nombre de usuario ya se encuentra registrado\n"), 0);
 		                             	  		else{
 		                             	  			if(registrarUsuario(usuario,pass) > 0)
-		                             	  				send(new_sd, "+Ok. Registro completado", strlen("+Ok. Registro completado"),0);
+		                             	  				send(new_sd, "+Ok. Registro completado\n", strlen("+Ok. Registro completado\n"),0);
 
 		                             	  		}
 
 
+		                             	  	}else{
+		                             	  		send(new_sd, "Los parámetro deben ser -u y -p\n", strlen("Los parámetro deben ser -u y -p\n"),0);
 		                             	  	}
 
+		                             	  }
+
+		                             	  /*if (strncmp (buffer, "INICIARPARTIDA",14) == 0)
+		                             	  {
+
+		                             	  		printf("Debe iniciar sesión antes de iniciar una partida\n");
+		                             	  		send(new_sd,"Debe iniciar sesión antes de iniciar una partida\n", strlen("Debe iniciar sesión antes de iniciar una partida\n"), 0);
+		                             	  		//Iniciar partida
+
+		                             	  	
 		                             	  }
 
 		                                /*for (j = 0; j < numClientes; j++){
@@ -316,7 +327,7 @@ int validarPass(char * usuario, char * pass){
 
 int registrarUsuario(char * usuario, char * pass){
 	FILE * f;
-	int exito;
+	int exito = 0;
 
 	f = fopen("usuarios.txt", "a");
 
