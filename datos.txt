@@ -1,7 +1,0 @@
-rafa;rafa;0
-juanma;juanma;0
-juan;juan;0
-juani;juani;0
-
-;usuario;0
-alex;alex;0
