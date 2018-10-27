@@ -19,7 +19,7 @@ class Tablero
 			_tablero.resize(_rows);
 
 			for(int i = 0; i < _rows; i++)
-				_tablero.resize(_cols);
+				_tablero[i].resize(_cols);
 
 			for(int i = 0; i < _rows; i++){
 				for(int j = 0; j < _cols; j++){
@@ -27,7 +27,7 @@ class Tablero
 				}
 			}
 		}
-		~Tablero();
+		~Tablero(){};
 
 		//Observadores
 

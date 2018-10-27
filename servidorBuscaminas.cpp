@@ -9,9 +9,10 @@
 #include <unistd.h>
 #include <time.h>
 #include <arpa/inet.h>
+#include "partida.hpp"
 #include "jugador.hpp"
 #include "tablero.hpp"
-#include "partida.hpp"
+#include "funciones.hpp"
 
 using namespace std;
 
@@ -25,14 +26,20 @@ int main(){
 	int sd, new_sd, on, ret, salida	;
 	struct sockaddr_in sockname, from;
 	char buffer[MSG_SIZE];
+    char reg[MSG_SIZE], usuario[MSG_SIZE], password[MSG_SIZE];
+    char param1[MSG_SIZE], param2[MSG_SIZE];
+    string user;
+    string pass;
 	socklen_t from_len;
     fd_set readfds, auxfds;
     vector<Jugador> jugadores;
-    int numClientes = 0;
+    vector<Partida> partidas;
+    int numClientes = 0, numValidados = 0;
     int i, j, k;
-    int recibidos;
+    int recibidos, contador_partidas = 0;
 
     jugadores.resize(30);
+    partidas.resize(15);
 
 
 	/* --------------------------------------------------
@@ -162,24 +169,23 @@ int main(){
 
                             	if(strncmp(buffer,"USUARIO",7) == 0){
 
-									char usuario[MSG_SIZE];
                                     strcpy(usuario, &buffer[8]);
                                     usuario[strlen(usuario)-1] = '\0';
 
-                                    string user(usuario);
+                                    user = usuario;
                                     bool existe = false;
 
                                     for(int j = 0; j < numClientes; j++){
-                                    	if(jugadores[j].getUser() == user){
-                                    		existe = true;
-                                    		send(i,"El usuario ya ha sido validado\n", strlen("El usuario ya ha sido validado\n"), 0);
+                                    	if(jugadores[j].getUser() == user and jugadores[j].isValidated()){
+                                            existe = true;
+                                    		send(i,"El usuario ya esta conectado\n", strlen("El usuario ya esta conectado\n"), 0);
 
                                     	}
                                     }
 
                                     for(int j = 0; j < numClientes; j++){
                                     	if(jugadores[j].getIdentifier() == i and !existe){
-                                    		if(jugadores[j].validateUser(user)){
+                                    		if(isRegistered(user)){
                                     			send(i, "+Ok. Usuario correcto\n", strlen("+Ok. Usuario correcto\n"), 0);
                                     		}else{
                                     			send(i, "-Err. Usuario incorrecto\n", strlen("-Err. Usuario incorrecto\n"), 0);
@@ -187,7 +193,66 @@ int main(){
                                     	}
                                     }
 
-                                }
+                                }else if(strncmp (buffer, "PASSWORD", 8) == 0){
+
+                                    strcpy(password, &buffer[9]);
+                                    password[strlen(password)-1] = '\0';
+
+                                    pass = password;
+
+                                    for(int j = 0; j < numClientes; j++){
+                                        if(jugadores[j].getIdentifier() == i){
+                                            if(comprobarPass(user, pass)){
+                                                jugadores[j].logIn(user, pass);
+                                                send(i, "+Ok. Usuario validado\n", strlen("+Ok. Usuario validado\n"),0);
+                                                numValidados++;
+                                            }else{
+                                                send(i, "-Err. Error en la validacion\n", strlen("-Err. Error en la validacion\n"),0);
+                                            }
+                                        }
+                                    }
+                                }else if(strncmp (buffer, "REGISTRO", 8) == 0){
+
+                                    
+                                    strcpy(reg, &buffer[9]);
+                                    sscanf(reg,"%s %s %s %s\n", param1, usuario, param2, password);
+                                    user = usuario;
+                                    pass = password;
+
+                                    if(strcmp(param1,"-u") != 0 or strcmp(param2, "-p") != 0){
+                                        send(i, "Las opciones son -u y -p\n", strlen("Las opciones son -u y -p\n"), 0);
+                                    }else{
+                                        for(int j = 0; j < numClientes; j++){
+                                            if(jugadores[j].getIdentifier() == i){
+                                                if(isRegistered(user))
+                                                    send(i, "El nombre de usuario ya existe\n", strlen("El nombre de usuario ya existe\n"), 0);
+                                                else{
+                                                    signIn(user, pass);
+                                                    send(i, "Usuario registrado satisfactoriamente\n", strlen("Usuario registrado satisfactoriamente\n"), 0);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }else if(strcmp(buffer, "INICIAR-PARTIDA\n") == 0){
+                                        for(int j = 0; j < numClientes; j++){
+                                            if(jugadores[j].getIdentifier() == i){
+                                                if(!jugadores[j].isValidated()){
+                                                    send(i,"Debe iniciar sesion para empezar una partida\n", strlen("Debe iniciar sesion para empezar una partida\n"), 0);
+                                                }
+                                                else if(numValidados%2 != 0){
+                                                    send(i, "Esperando a otro jugador para iniciar partida\n", strlen("Esperando a otro jugador para iniciar partida\n"), 0);
+                                                    partidas[contador_partidas].setJugador1(jugadores[j]);
+                                                    partidas[contador_partidas].setId(contador_partidas);
+                                                }else{
+                                                    partidas[contador_partidas].setJugador2(jugadores[j]);
+                                                    partidas[contador_partidas].iniciar();
+                                                    contador_partidas++;
+                                                    send(i, "Iniciando partida...\n", strlen("Iniciando partida...\n"), 0);
+                                                }
+                                            }
+                                        }
+                                }  
 /*else if(strncmp(buffer, "PASSWORD",8) == 0 && registrado == 1){
 
   	//Comprobar pass
