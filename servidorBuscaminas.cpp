@@ -125,7 +125,7 @@ int main(){
                                     numClientes++;
                                     FD_SET(new_sd,&readfds);
 
-                                    strcpy(buffer, "Bienvenido al chat\n");
+                                    strcpy(buffer, "Bienvenido al Buscaminas\n");
 
                                     send(new_sd,buffer,strlen(buffer),0);
 
