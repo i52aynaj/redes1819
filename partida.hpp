@@ -22,6 +22,14 @@ class Partida
 
 		~Partida(){};
 
+		//Observadores
+
+		Jugador getJugador1(){return _jugador1;}
+		Jugador getJugador2(){return _jugador2;}
+		Tablero getTablero(){return _tablero;}
+
+		//Modificadores
+		
 		void setJugador1(Jugador jugador){_jugador1 = jugador;}
 		void setJugador2(Jugador jugador){_jugador2 = jugador;}
 		void setId(int id){_id = id;}

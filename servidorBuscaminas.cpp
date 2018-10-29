@@ -23,6 +23,8 @@ void manejador(int signum);
 
 int main(){
 
+    srand(time(NULL));
+
 	int sd, new_sd, on, ret, salida	;
 	struct sockaddr_in sockname, from;
 	char buffer[MSG_SIZE];
@@ -239,16 +241,17 @@ int main(){
                                             if(jugadores[j].getIdentifier() == i){
                                                 if(!jugadores[j].isValidated()){
                                                     send(i,"Debe iniciar sesion para empezar una partida\n", strlen("Debe iniciar sesion para empezar una partida\n"), 0);
-                                                }
-                                                else if(numValidados%2 != 0){
+                                                }else if(numValidados%2 != 0){
                                                     send(i, "Esperando a otro jugador para iniciar partida\n", strlen("Esperando a otro jugador para iniciar partida\n"), 0);
                                                     partidas[contador_partidas].setJugador1(jugadores[j]);
                                                     partidas[contador_partidas].setId(contador_partidas);
                                                 }else{
                                                     partidas[contador_partidas].setJugador2(jugadores[j]);
                                                     partidas[contador_partidas].iniciar();
+                                                    
+                                                    send(partidas[contador_partidas].getJugador1().getIdentifier(), "+Ok. Empieza la partida\n", strlen("+Ok. Empieza la partida\n"), 0);
+                                                    send(partidas[contador_partidas].getJugador2().getIdentifier(), "+Ok. Empieza la partida\n", strlen("+Ok. Empieza la partida\n"), 0);
                                                     contador_partidas++;
-                                                    send(i, "Iniciando partida...\n", strlen("Iniciando partida...\n"), 0);
                                                 }
                                             }
                                         }
