@@ -17,7 +17,6 @@ class Tablero
 	public:
 		Tablero(int rows = 10, int cols = 10){
 			_rows = rows; _cols = cols;
-			int bombas = 0;
 
 			_tablero.resize(_rows);
 
@@ -29,11 +28,20 @@ class Tablero
 			for(int i = 0; i < _rows; i++)
 				_solucion[i].resize(_cols);
 
-			for(int i = 0; i < _rows; i++){
-				for(int j = 0; j < _cols; j++){
+			for(int i = 0; i < 10; i++){
+				for(int j = 0; j < 10; j++){
 					_tablero[i][j] = "-";
 				}
 			}
+
+			/*for(int i = 0; i < 10; i++){
+				cout << i << " ";
+				for(int j = 0; j < 10; j++){
+					cout << _tablero[i][j] << " ";
+				}
+				cout << endl;
+			}*/
+
 
 			for(int i = 0; i < _rows; i++){
 				for(int j = 0; j < _cols; j++){
@@ -42,16 +50,27 @@ class Tablero
 			}
 
 			
-			do{
-				int fila = rand()%10;
-				int columna = rand()%10;
-				if(_solucion[fila][columna] != "*"){
-					_solucion[fila][columna] = "*";
-					bombas++;
-				}
-			}while(bombas<10);
-
-
+			for (int mina=0;mina < 10; mina++){
+            //Busca una posición aleatoria donde no haya otra bomba
+            int f,c;
+            do{
+                f=rand()%10;
+                c=rand()%10;
+            }while(_solucion[f][c] == "*");
+            //Pone la bomba
+            _solucion[f][c]="*";
+            //Recorre el contorno de la bomba e incrementa los contadores
+            for (int f2=max(0, f-1);f2 < min(_rows,f+2);f2++){
+                for (int c2=max(0,c-1);c2 < min(_rows,c+2);c2++){
+                    if (_solucion[f2][c2]!= "*"){ //Si no es bomba
+                    	string pos= getSol(f2, c2);
+                    	char * csr = &pos[0u];
+                    	int aux = atoi(csr) + 1;
+                        _solucion[f2][c2] = to_string(aux);  //Incrementa el contador
+                    }
+                }
+            }
+        }
 
 
 		}
@@ -60,6 +79,7 @@ class Tablero
 		//Observadores
 
 		string getPos(int i, int j){return _tablero[i][j];}
+		string getSol(int i, int j){return _solucion[i][j];}
 
 		int getRows(){return _rows;}
 
@@ -67,7 +87,7 @@ class Tablero
 
 		//Modificadores
 
-		void setPos(int i, int j, string c){_tablero[i][j] = c;}
+		void setPos(int i, int j, char c){_tablero[i][j] = c;}
 
 		void setRows(int rows){_rows = rows;}
 
