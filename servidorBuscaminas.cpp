@@ -39,6 +39,7 @@ int main(){
     int numClientes = 0, numValidados = 0;
     int i, j, k;
     int recibidos, contador_partidas = 0;
+    int primero, segundo;
 
     jugadores.resize(30);
     partidas.resize(15);
@@ -236,25 +237,32 @@ int main(){
                                         }
                                     }
 
-                                }else if(strcmp(buffer, "INICIAR-PARTIDA\n") == 0){
+                                }else if(strcmp(buffer, "INICIAR-PARTIDA\n") == 0){                               		
                                         for(int j = 0; j < numClientes; j++){
                                             if(jugadores[j].getIdentifier() == i){
                                                 if(!jugadores[j].isValidated()){
                                                     send(i,"Debe iniciar sesion para empezar una partida\n", strlen("Debe iniciar sesion para empezar una partida\n"), 0);
                                                 }else if(numValidados%2 != 0){
+                                                	primero = 0;
+                                                	segundo = 0;
                                                     send(i, "Esperando a otro jugador para iniciar partida\n", strlen("Esperando a otro jugador para iniciar partida\n"), 0);
                                                     partidas[contador_partidas].setJugador1(jugadores[j]);
                                                     partidas[contador_partidas].setId(contador_partidas);
+                                                    primero = partidas[contador_partidas].getJugador1().getIdentifier();
                                                 }else{
                                                     partidas[contador_partidas].setJugador2(jugadores[j]);
-                                                    partidas[contador_partidas].iniciar();
-                                                    
+                                                    segundo = partidas[contador_partidas].getJugador2().getIdentifier();
                                                     send(partidas[contador_partidas].getJugador1().getIdentifier(), "+Ok. Empieza la partida\n", strlen("+Ok. Empieza la partida\n"), 0);
-                                                    send(partidas[contador_partidas].getJugador2().getIdentifier(), "+Ok. Empieza la partida\n", strlen("+Ok. Empieza la partida\n"), 0);
+                                                    send(partidas[contador_partidas].getJugador2().getIdentifier(), "+Ok. Empieza la partida\n", strlen("+Ok. Empieza la partida\n"), 0);                                               
                                                     contador_partidas++;
                                                 }
+
+                                                
                                             }
                                         }
+                                        	if(primero > 0 and segundo > 0)
+                                        		partidas[contador_partidas-1].enviarTablero(primero, segundo);                                
+
                                 }  
 /*else if(strncmp(buffer, "PASSWORD",8) == 0 && registrado == 1){
 
