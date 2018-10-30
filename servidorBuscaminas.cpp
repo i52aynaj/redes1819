@@ -293,7 +293,9 @@ int main(){
                                             }
                                             else
                                             {
-                                                
+                                                send(primero,)
+                                                send(segundo,)
+                                                salirCliente(i,&readfds,&numClientes,arrayClientes);
                                             }
 
                                         }
