@@ -94,7 +94,7 @@ class Tablero
 
 		void setCols(int cols){_cols = cols;}
 
-		bool comprobarcasilla(char *letras, int numero)
+		bool comprobarcasilla(char *letras, int numero,char usuario)
 		{
 			int posicion,i=0;
 			char letra;
@@ -160,10 +160,14 @@ class Tablero
 				}
 			}
 
-			
+			if (getPos(posicion,numero)=="*")
+			{
+				return false;
+			}
 
-
-		}
+setPos(posicion,numero,usuario);
+return true;
+}
 
 
 		

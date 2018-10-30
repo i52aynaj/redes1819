@@ -29,7 +29,7 @@ int main(){
 	struct sockaddr_in sockname, from;
 	char buffer[MSG_SIZE];
     char reg[MSG_SIZE], usuario[MSG_SIZE], password[MSG_SIZE];
-    char param1[MSG_SIZE], param2[MSG_SIZE];
+    char param1[MSG_SIZE], param2[MSG_SIZE],prim;
     string user;
     string pass;
     char *letra;
@@ -274,10 +274,30 @@ int main(){
 
                                         if (i==primero)
                                         {
-                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(letra,numero))
+                                            send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
+
+                                            if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
+                                            prim='A';
+
+                                            if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
+                                            prim='B';
+
+                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(letra,numero,prim))
                                             {
+                                                //Cambiamos de turno.
+                                                int turno1=0;
+                                                turno1=primero
+                                                primero=segundo;
+                                                segundo=turno1;
 
                                             }
+                                            else
+                                            {
+                                                send(primero,)
+                                                send(segundo,)
+                                                salirCliente(i,&readfds,&numClientes,arrayClientes);
+                                            }
+
                                         }
                                         else
                                         {
