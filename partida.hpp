@@ -42,7 +42,9 @@ class Partida
 
 			sprintf(buffer, "    A B C D E F G H I J\n");
 
-			for(int i = 0; i < _tablero.getRows(); i++){
+
+			for(int i = 0; i < _tablero.getRows(); i++)
+			{
 				sprintf(aux, "[%d] ", i);
 				for(int j = 0; j < _tablero.getCols(); j++){
 					string pos = _tablero.getPos(i,j);

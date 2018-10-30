@@ -3,6 +3,7 @@
 
 #include "jugador.hpp"
 #include <sstream>
+#include <cctype>
 
 using namespace std;
 
@@ -92,6 +93,77 @@ class Tablero
 		void setRows(int rows){_rows = rows;}
 
 		void setCols(int cols){_cols = cols;}
+
+		bool comprobarcasilla(char *letras, int numero)
+		{
+			int posicion,i=0;
+			char letra;
+			while (letras[i])
+			{
+				letra = letras[i];
+				putchar (tolower(letra));
+				i++;
+			}
+			
+
+			switch(letra)
+			{
+				case 'a':
+				{
+					posicion=0;
+				break;
+				}
+				case 'b':
+				{
+					posicion=1;
+				break;
+				}
+				case 'c':
+				{
+					posicion=2;
+				break;
+				}
+				case 'd':
+				{
+					posicion=3;
+				break;
+				}
+				case 'e':
+				{
+					posicion=4;
+				break;
+				}
+				case 'f':
+				{
+					posicion=5;
+				break;
+				}
+				case 'g':
+				{
+					posicion=6;
+				break;
+				}
+				case 'h':
+				{
+					posicion=7;
+				break;
+				}
+				case 'i':
+				{
+					posicion=8;
+				break;
+				}
+				case 'j':
+				{
+					posicion=9;
+				break;
+				}
+			}
+
+			
+
+
+		}
 
 
 		

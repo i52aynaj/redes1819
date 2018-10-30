@@ -32,6 +32,7 @@ int main(){
     char param1[MSG_SIZE], param2[MSG_SIZE];
     string user;
     string pass;
+    char *letra;
 	socklen_t from_len;
     fd_set readfds, auxfds;
     vector<Jugador> jugadores;
@@ -39,7 +40,7 @@ int main(){
     int numClientes = 0, numValidados = 0;
     int i, j, k;
     int recibidos, contador_partidas = 0;
-    int primero, segundo;
+    int primero, segundo,numero;
 
     jugadores.resize(30);
     partidas.resize(15);
@@ -126,7 +127,7 @@ int main(){
                                     numClientes++;
                                     FD_SET(new_sd,&readfds);
 
-                                    strcpy(buffer, "Bienvenido al chat\n");
+                                    strcpy(buffer, "Bienvenido al Buscaminas\n");
 
                                     send(new_sd,buffer,strlen(buffer),0);
 
@@ -260,10 +261,36 @@ int main(){
                                                 
                                             }
                                         }
-                                        	if(primero > 0 and segundo > 0)
-                                        		partidas[contador_partidas-1].enviarTablero(primero, segundo);                                
+                                    if(primero > 0 and segundo > 0)
+                                        partidas[contador_partidas-1].enviarTablero(primero, segundo); 
 
-                                }  
+                                    if (strncmp(buffer, "DESCUBRIR",9) == 0 )
+                                    {
+                                        strcpy(reg, &buffer[10]);
+                                        sscanf(reg,"%s , %s \n",usuario,password); //Guardamos la letra y el numero.
+
+                                        letra = &usuario[0u];
+                                        numero = atoi(password);
+
+                                        if (i==primero)
+                                        {
+                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(letra,numero))
+                                            {
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            send(i,"\e[1;91m-Err. Debe esperar su turno.\e[0m\n",strlen("\e[1;91m-Err. Debe esperar su turno.\e[0m\n"),0);
+                                        }
+
+                                    }
+
+                                } 
+                                else{
+                                    send(i,"\e[1;91m-Err. Comando no reconocido.\e[0m\n",strlen("\e[1;91m-Err. Comando no reconocido.\e[0m\n"),0);
+
+                                } 
 /*else if(strncmp(buffer, "PASSWORD",8) == 0 && registrado == 1){
 
   	//Comprobar pass
