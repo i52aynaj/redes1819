@@ -18,7 +18,7 @@ Descriptor del socket y buffer de datos
 -----------------------------------------------------*/
 	int sd;
 	struct sockaddr_in sockname;
-	char buffer[250];
+	char buffer[512];
 	socklen_t len_sockname;
     fd_set readfds, auxfds;
     int salida;

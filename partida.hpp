@@ -40,18 +40,20 @@ class Partida
 			char buffer[512];
 			char aux[512];
 
-			sprintf(buffer, "   A B C D E F G H I J\n");
+			sprintf(buffer, "    A B C D E F G H I J\n");
 
 			for(int i = 0; i < _tablero.getRows(); i++){
 				sprintf(aux, "[%d] ", i);
 				for(int j = 0; j < _tablero.getCols(); j++){
 					string pos = _tablero.getPos(i,j);
-					csr = &pos[0u];
+					csr = &pos[0];
 					strcat(aux, csr);
 					if(j < 9)
 						strcat(aux, " ");
 					else
 						strcat(aux,"\n");
+
+					cout << aux;
 
 				}
 				strcat(buffer, aux);
