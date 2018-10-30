@@ -262,9 +262,9 @@ int main(){
                                             }
                                         }
                                     if(primero > 0 and segundo > 0)
-                                        partidas[contador_partidas-1].enviarTablero(primero, segundo); 
+                                        partidas[contador_partidas-1].enviarTablero(primero, segundo);
 
-                                    if (strncmp(buffer, "DESCUBRIR",9) == 0 )
+                                }else if (strncmp(buffer, "DESCUBRIR",9) == 0 )
                                     {
                                         strcpy(reg, &buffer[10]);
                                         sscanf(reg,"%s , %s \n",usuario,password); //Guardamos la letra y el numero.
@@ -284,13 +284,13 @@ int main(){
                                             send(i,"\e[1;91m-Err. Debe esperar su turno.\e[0m\n",strlen("\e[1;91m-Err. Debe esperar su turno.\e[0m\n"),0);
                                         }
 
-                                    }
-
-                                } 
-                                else{
+                                }/*else if(strcmp(buffer, " ") != 0){
+                                    cout << "Entra aqui" << endl;
                                     send(i,"\e[1;91m-Err. Comando no reconocido.\e[0m\n",strlen("\e[1;91m-Err. Comando no reconocido.\e[0m\n"),0);
 
-                                } 
+                                }*/
+
+
 /*else if(strncmp(buffer, "PASSWORD",8) == 0 && registrado == 1){
 
   	//Comprobar pass
