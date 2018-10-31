@@ -295,14 +295,20 @@ int main(){
                                             {
                                                 if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
                                                 {
-                                                    send(primero,"Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida")
-                                                    send(segundo,"Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida")
+                                                    string envia="Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida";
+                                                    const char *enviar=envia.c_str();
+
+                                                    send(primero,enviar,sizeof(enviar),0);
+                                                    send(segundo,enviar,sizeof(enviar),0);
                                                 }
                                                 
                                                 if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
                                                 {
-                                                    send(primero,"Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida")
-                                                    send(segundo,"Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida")
+                                                    string envia="Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida";
+                                                    const char *enviar=envia.c_str();
+
+                                                    send(primero,enviar,sizeof(enviar),0);
+                                                    send(segundo,enviar,sizeof(enviar),0);
                                                 }
 
                                             }
@@ -313,7 +319,12 @@ int main(){
                                             send(i,"\e[1;91m-Err. Debe esperar su turno.\e[0m\n",strlen("\e[1;91m-Err. Debe esperar su turno.\e[0m\n"),0);
                                         }
 
-                                }/*else if(strcmp(buffer, " ") != 0){
+                                }
+                                else if (strncmp(buffer, "PONER-BANDERA",9) == 0)
+                                {
+
+                                }
+                                /*else if(strcmp(buffer, " ") != 0){
                                     cout << "Entra aqui" << endl;
                                     send(i,"\e[1;91m-Err. Comando no reconocido.\e[0m\n",strlen("\e[1;91m-Err. Comando no reconocido.\e[0m\n"),0);
 

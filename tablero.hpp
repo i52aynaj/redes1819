@@ -90,9 +90,9 @@ class Tablero
 
 		void setPos(int i, int j, char c,int usuario)
 		{
-			if (getPos(int i, int j)=="A")
+			if (getPos(i,j)=="A")
 			{
-				if (c=="A")
+				if (c=='A')
 				{
 					send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
 				}
@@ -101,9 +101,9 @@ class Tablero
 					_tablero[i][j] += c;
 				}
 			}
-			else if (getPos(int i, int j)=="B")
+			else if (getPos(i,j)=="B")
 			{
-				if (c=="B")
+				if (c=='B')
 				{
 					send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
 				}
@@ -113,7 +113,7 @@ class Tablero
 				}
 
 			}
-			else if (getPos(int i, int j)=="AB" or getPos(int i, int j)=="BA")
+			else if (getPos(i,j)=="AB" or getPos(i,j)=="BA")
 			{
 				send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
 			}
@@ -127,7 +127,7 @@ class Tablero
 
 		void setCols(int cols){_cols = cols;}
 
-		bool comprobarcasilla(char *letras, int numero,char usuario)
+		bool comprobarcasilla(char *letras, int numero,char usuario,int socket)
 		{
 			int posicion,i=0;
 			char letra;
@@ -198,7 +198,7 @@ class Tablero
 				return false;
 			}
 
-setPos(posicion,numero,usuario);
+setPos(posicion,numero,usuario,socket);
 return true;
 }
 
