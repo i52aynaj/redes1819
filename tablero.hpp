@@ -88,7 +88,17 @@ class Tablero
 
 		//Modificadores
 
-		void setPos(int i, int j, char c){_tablero[i][j] = c;}
+		void setPos(int i, int j, char c)
+		{
+			if (getPos(int i, int j)=="A" or getPos(int i, int j)=="B")
+			{
+			_tablero[i][j] += c;
+			}
+			else
+			{
+			_tablero[i][j] = c;
+			}
+		}
 
 		void setRows(int rows){_rows = rows;}
 
