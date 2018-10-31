@@ -286,7 +286,7 @@ int main(){
                                             {
                                                 //Cambiamos de turno.
                                                 int turno1=0;
-                                                turno1=primero
+                                                turno1=primero;
                                                 primero=segundo;
                                                 segundo=turno1;
 

@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <iostream>
 #include <netdb.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,8 +10,9 @@
 #include <time.h>
 #include <arpa/inet.h>
 
+void dibujartablero(char *cadena);
 
-int main ( )
+int main (int argc, char **argv )
 {
 
 /*----------------------------------------------------
@@ -24,6 +26,8 @@ Descriptor del socket y buffer de datos
     fd_set readfds, auxfds;
     int salida;
     int fin = 0;
+    char dir[30];
+    char *opcion;
 
     if (argc == 2)
     {
@@ -89,6 +93,7 @@ Descriptor del socket y buffer de datos
 
 	        if ( strcmp(opcion, "A")==0 or strcmp(opcion, "B")==0 or strcmp(opcion, "AB")==0 or strcmp(opcion, "-")==0)
 	        {
+	        	std::cout << "DIbujar tablero" << std::endl;
 	        	dibujartablero(buffer);
 	        }
 	        else
@@ -136,22 +141,22 @@ int t=0;
 std::cout << "\33[2J";
 printf (" A B C D E F G H I J\n ---------------------");
 
-for (int i=0; i<10; i++)
-{
-for (int j=0; j<10; j++)
-{
-if (j == 0)
-{
-if (i !=9)
-printf("\n%d | ", i+1);
+	for (int i=0; i<10; i++)
+	{
+		for (int j=0; j<10; j++)
+		{
+			if (j == 0)
+			{
+				if (i !=9)
+				printf("\n%d | ", i+1);
 
-if (i == 9)
-printf("\n%d| ", i+1);
-}
-printf("%c ", cadena[t]);
-t=t+2;
-}
+				if (i == 9)
+				printf("\n%d| ", i+1);
+		}
+		printf("%c ", cadena[t]);
+		t=t+2;
+		}
 
-}
-printf("\n\n");
+	}
+	printf("\n\n");
 }
