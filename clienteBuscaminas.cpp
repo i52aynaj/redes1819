@@ -19,10 +19,21 @@ Descriptor del socket y buffer de datos
 	int sd;
 	struct sockaddr_in sockname;
 	char buffer[512];
+	char buffer2[250];
 	socklen_t len_sockname;
     fd_set readfds, auxfds;
     int salida;
     int fin = 0;
+
+    if (argc == 2)
+    {
+    	strcpy(dir,argv[1]);
+    }
+    else
+    {
+    	strcpy(dir,"127.0.0.1");
+    }
+
 /* --------------------------------------------------
 	Se abre el socket
 ---------------------------------------------------*/
@@ -73,8 +84,18 @@ Descriptor del socket y buffer de datos
 	        bzero(buffer,sizeof(buffer));
 	        recv(sd,buffer,sizeof(buffer),0);
 
-	        printf("\n%s\n",buffer);
+	        strcpy(buffer2,buffer);
+	        opcion = strtok(buffer2, ",");
 
+	        if ( strcmp(opcion, "A")==0 or strcmp(opcion, "B")==0 or strcmp(opcion, "AB")==0 or strcmp(opcion, "-")==0)
+	        {
+	        	dibujartablero(buffer);
+	        }
+	        else
+	        {
+	        	printf("\n%s\n",buffer);
+	        }
+	        
 	        if(strcmp(buffer,"Demasiados clientes conectados\n") == 0)
 	            fin =1;
 
@@ -107,4 +128,30 @@ Descriptor del socket y buffer de datos
 
 	return 0;
 
+}
+
+void dibujartablero(char *cadena)
+{
+int t=0;
+std::cout << "\33[2J";
+printf (" A B C D E F G H I J\n ---------------------");
+
+for (int i=0; i<10; i++)
+{
+for (int j=0; j<10; j++)
+{
+if (j == 0)
+{
+if (i !=9)
+printf("\n%d | ", i+1);
+
+if (i == 9)
+printf("\n%d| ", i+1);
+}
+printf("%c ", cadena[t]);
+t=t+2;
+}
+
+}
+printf("\n\n");
 }

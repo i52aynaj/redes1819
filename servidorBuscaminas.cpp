@@ -46,7 +46,7 @@ int main(){
     partidas.resize(15);
 
 
-	/* --------------------------------------------------
+	/* -------------------------------------------------- 
 		Se abre el socket
 	---------------------------------------------------*/
     sd = socket (AF_INET, SOCK_STREAM, 0);
@@ -293,9 +293,9 @@ int main(){
                                             }
                                             else
                                             {
-                                                send(primero,)
-                                                send(segundo,)
-                                                salirCliente(i,&readfds,&numClientes,arrayClientes);
+                                                //send(primero,"Jugador "+autenticar[i].getUsuario()+" ha perdido la partida")
+                                                //send(segundo,)
+                                                //salirCliente(i,&readfds,&numClientes,jugadores);
                                             }
 
                                         }
@@ -362,6 +362,34 @@ salirCliente(i,&readfds,&numClientes,arrayClientes);
 	return 0;
 	
 }
+
+void salirCliente(int socket, fd_set * readfds, int * numClientes, int arrayClientes[]){
+  
+    char buffer[250];
+    int j;
+    
+    close(socket);
+    FD_CLR(socket,readfds);
+    
+    //Re-estructurar el array de clientes
+    for (j = 0; j < (*numClientes) - 1; j++)
+        if (arrayClientes[j] == socket)
+            break;
+    for (; j < (*numClientes) - 1; j++)
+        (arrayClientes[j] = arrayClientes[j+1]);
+    
+    (*numClientes)--;
+    
+    bzero(buffer,sizeof(buffer));
+    sprintf(buffer,"Desconexión del cliente: %d\n",socket);
+    
+    for(j=0; j<(*numClientes); j++)
+        if(arrayClientes[j] != socket)
+            send(arrayClientes[j],buffer,strlen(buffer),0);
+
+
+}
+
 
 
 void manejador (int signum){
