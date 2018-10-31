@@ -282,7 +282,7 @@ int main(){
                                             if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
                                             prim='B';
 
-                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(letra,numero,prim,i)) // Se elige una casilla sin bomba y se muestra el tablero actualizado.
+                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(letra,numero,prim))
                                             {
                                                 //Cambiamos de turno.
                                                 int turno1=0;
@@ -291,20 +291,11 @@ int main(){
                                                 segundo=turno1;
 
                                             }
-                                            else //En este caso se ha descubierto una bomba y acaba la partida.
+                                            else
                                             {
-                                                if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
-                                                {
-                                                    send(primero,"Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida")
-                                                    send(segundo,"Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida")
-                                                }
-                                                
-                                                if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
-                                                {
-                                                    send(primero,"Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida")
-                                                    send(segundo,"Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida")
-                                                }
-
+                                                //send(primero,"Jugador "+autenticar[i].getUsuario()+" ha perdido la partida")
+                                                //send(segundo,)
+                                                //salirCliente(i,&readfds,&numClientes,jugadores);
                                             }
 
                                         }

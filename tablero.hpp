@@ -88,7 +88,40 @@ class Tablero
 
 		//Modificadores
 
-		void setPos(int i, int j, char c){_tablero[i][j] = c;}
+		void setPos(int i, int j, char c,int usuario)
+		{
+			if (getPos(int i, int j)=="A")
+			{
+				if (c=="A")
+				{
+					send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
+				}
+				else
+				{
+					_tablero[i][j] += c;
+				}
+			}
+			else if (getPos(int i, int j)=="B")
+			{
+				if (c=="B")
+				{
+					send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
+				}
+				else
+				{
+					_tablero[i][j] += c;
+				}
+
+			}
+			else if (getPos(int i, int j)=="AB" or getPos(int i, int j)=="BA")
+			{
+				send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
+			}
+			else
+			{
+			_tablero[i][j] = c;
+			}
+		}
 
 		void setRows(int rows){_rows = rows;}
 
