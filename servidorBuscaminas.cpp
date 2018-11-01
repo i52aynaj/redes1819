@@ -20,6 +20,8 @@ using namespace std;
 #define MAX_CLIENTS 50
 
 void manejador(int signum);
+std::vector<string> leercadena(string cadena);
+bool comprobar(char letra ,int posicion);
 
 int main(){
 
@@ -37,6 +39,7 @@ int main(){
     fd_set readfds, auxfds;
     vector<Jugador> jugadores;
     vector<Partida> partidas;
+    vector <string> opcion;
     int numClientes = 0, numValidados = 0;
     int i, j, k;
     int recibidos, contador_partidas = 0;
@@ -267,58 +270,76 @@ int main(){
 
                                 }else if (strncmp(buffer, "DESCUBRIR",9) == 0 )
                                     {
-                                        strcpy(reg, &buffer[10]);
-                                        sscanf(reg,"%s , %s \n",usuario,password); //Guardamos la letra y el numero.
+                                        
+                                        opcion = leercadena(buffer);
+                                        const char *devuelve = opcion[1].c_str();
 
-                                        letra = &usuario[0u];
-                                        numero = atoi(password);
+                                        int valor=0;      
 
-                                        if (i==primero)
-                                        {
-                                            send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
-
-                                            if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
-                                            prim='A';
-
-                                            if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
-                                            prim='B';
-
-                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(letra,numero,prim,i)) // Se elige una casilla sin bomba y se muestra el tablero actualizado.
-                                            {
-                                                //Cambiamos de turno.
-                                                int turno1=0;
-                                                turno1=primero;
-                                                primero=segundo;
-                                                segundo=turno1;
-
-                                            }
-                                            else //En este caso se ha descubierto una bomba y acaba la partida.
-                                            {
-                                                if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
+                                                if (i==primero)
                                                 {
-                                                    string envia="Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida";
-                                                    const char *enviar=envia.c_str();
+                                                    if (not comprobar(devuelve[0],devuelve[2]) )
+                                                        {
+                                                            send(i,"\e[1;91m!Debe introducir una letra entre A y J, y un valor numerico entre 1 y 10.\e[0m",strlen("\e[1;91m!Debe introducir una letra entre A y J, y un valor numerico entre 1 y 10.\e[0m"),0);
+                                                        }
+                                                    else
+                                                        {
+                                                            if ( devuelve[3] )
+                                                            {
+                                                            valor=10;
+                                                            printf("%d\n",valor);
+                                                            }
+                                                            else
+                                                            {
+                                                            valor=(devuelve[2] - '0');
+                                                            }
 
-                                                    send(primero,enviar,sizeof(enviar),0);
-                                                    send(segundo,enviar,sizeof(enviar),0);
+
+                                                            if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
+                                                            prim='A';
+
+                                                            if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
+                                                            prim='B';
+
+                                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(devuelve[0],valor,prim,i)) // Se elige una casilla sin bomba y se muestra el tablero actualizado.
+                                                            {
+                                                                //Cambiamos de turno.
+                                                                int turno1=0;
+                                                                turno1=primero;
+                                                                primero=segundo;
+                                                                segundo=turno1;
+                                                                send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
+
+                                                            }
+                                                            else //En este caso se ha descubierto una bomba y acaba la partida.
+                                                            {
+                                                                if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
+                                                                {
+                                                                    string envia="Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida";
+                                                                    const char *enviar=envia.c_str();
+
+                                                                    send(primero,enviar,sizeof(enviar),0);
+                                                                    send(segundo,enviar,sizeof(enviar),0);
+                                                                }
+                                                                
+                                                                if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
+                                                                {
+                                                                    string envia="Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida";
+                                                                    const char *enviar=envia.c_str();
+
+                                                                    send(primero,enviar,sizeof(enviar),0);
+                                                                    send(segundo,enviar,sizeof(enviar),0);
+                                                                }
+
+                                                            }
+                                                        }
+
                                                 }
-                                                
-                                                if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
+                                                else
                                                 {
-                                                    string envia="Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida";
-                                                    const char *enviar=envia.c_str();
-
-                                                    send(primero,enviar,sizeof(enviar),0);
-                                                    send(segundo,enviar,sizeof(enviar),0);
+                                                    send(i,"\e[1;91m-Err. Debe esperar su turno.\e[0m\n",strlen("\e[1;91m-Err. Debe esperar su turno.\e[0m\n"),0);
                                                 }
 
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            send(i,"\e[1;91m-Err. Debe esperar su turno.\e[0m\n",strlen("\e[1;91m-Err. Debe esperar su turno.\e[0m\n"),0);
-                                        }
 
                                 }
                                 else if (strncmp(buffer, "PONER-BANDERA",9) == 0)
@@ -411,6 +432,33 @@ void salirCliente(int socket, fd_set * readfds, int * numClientes, int arrayClie
 
 }
 
+std::vector<string> leercadena(string cadena)
+{
+std::stringstream x;
+string segment;
+std::vector<std::string> seglist;
+x.str(cadena);
+
+while (std::getline(x,segment, ' '))
+{
+seglist.push_back(segment);
+}
+
+return seglist;
+}
+
+bool comprobar(char letra ,int posicion)
+{
+if (letra=='A' or letra=='B' or letra=='C' or letra=='D' or letra=='E' or letra=='F' or letra=='G' or letra=='H' or letra=='I' or letra=='J')
+{
+if (posicion>0 or posicion<11)
+return true;
+
+return false;
+}
+
+return false;
+}
 
 
 void manejador (int signum){

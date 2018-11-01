@@ -127,72 +127,68 @@ class Tablero
 
 		void setCols(int cols){_cols = cols;}
 
-		bool comprobarcasilla(char *letras, int numero,char usuario,int socket)
+		bool comprobarcasilla(char letras, int numero,char usuario,int socket)
 		{
-			int posicion,i=0;
+			std::cout<<letras<<"letras"<<std::endl;
+			int posicion=0;
 			char letra;
-			while (letras[i])
-			{
-				letra = letras[i];
-				putchar (tolower(letra));
-				i++;
-			}
 			
 
 			switch(letra)
 			{
-				case 'a':
+				case 'A':
 				{
 					posicion=0;
 				break;
 				}
-				case 'b':
+				case 'B':
 				{
 					posicion=1;
 				break;
 				}
-				case 'c':
+				case 'C':
 				{
 					posicion=2;
 				break;
 				}
-				case 'd':
+				case 'D':
 				{
 					posicion=3;
 				break;
 				}
-				case 'e':
+				case 'E':
 				{
 					posicion=4;
 				break;
 				}
-				case 'f':
+				case 'F':
 				{
 					posicion=5;
 				break;
 				}
-				case 'g':
+				case 'G':
 				{
 					posicion=6;
 				break;
 				}
-				case 'h':
+				case 'H':
 				{
 					posicion=7;
 				break;
 				}
-				case 'i':
+				case 'I':
 				{
 					posicion=8;
 				break;
 				}
-				case 'j':
+				case 'J':
 				{
 					posicion=9;
 				break;
 				}
 			}
 
+std::cout<<posicion<<","<<numero<<std::endl;
 			if (getPos(posicion,numero)=="*")
 			{
 				return false;
