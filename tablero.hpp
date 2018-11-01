@@ -117,9 +117,14 @@ class Tablero
 			{
 				send(usuario,"\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n",strlen("\e[1;91m-Err. Ya ha seleccionado esa casilla eliga otra.\e[0m\n"),0);
 			}
+			else if (getSol(i,j)=="0" or getSol(i,j)=="1" or getSol(i,j)=="2" or getSol(i,j)=="3" or getSol(i,j)=="4" or getSol(i,j)=="5" or getSol(i,j)=="6" or getSol(i,j)=="7" or getSol(i,j)=="8")
+			{
+
+			_tablero[i][j] = getSol(i,j);
+			}
 			else
 			{
-			_tablero[i][j] = c;
+				_tablero[i][j] = c;
 			}
 		}
 
@@ -127,76 +132,6 @@ class Tablero
 
 		void setCols(int cols){_cols = cols;}
 
-		bool comprobarcasilla(char letras, int numero,char usuario,int socket)
-		{
-			std::cout<<letras<<"letras"<<std::endl;
-			int posicion=0;
-			char letra;
-			
-
-			switch(letra)
-			{
-				case 'A':
-				{
-					posicion=0;
-				break;
-				}
-				case 'B':
-				{
-					posicion=1;
-				break;
-				}
-				case 'C':
-				{
-					posicion=2;
-				break;
-				}
-				case 'D':
-				{
-					posicion=3;
-				break;
-				}
-				case 'E':
-				{
-					posicion=4;
-				break;
-				}
-				case 'F':
-				{
-					posicion=5;
-				break;
-				}
-				case 'G':
-				{
-					posicion=6;
-				break;
-				}
-				case 'H':
-				{
-					posicion=7;
-				break;
-				}
-				case 'I':
-				{
-					posicion=8;
-				break;
-				}
-				case 'J':
-				{
-					posicion=9;
-				break;
-				}
-			}
-
-std::cout<<posicion<<","<<numero<<std::endl;
-			if (getPos(posicion,numero)=="*")
-			{
-				return false;
-			}
-
-setPos(posicion,numero,usuario,socket);
-return true;
-}
 
 
 		

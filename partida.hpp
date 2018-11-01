@@ -18,6 +18,7 @@ class Partida
 	public:
 		Partida(bool iniciada = false){
 			_iniciada = iniciada;
+			Tablero();
 		};
 
 		~Partida(){};
@@ -59,9 +60,81 @@ class Partida
 				}
 				strcat(buffer, aux);
 			}
+			sleep(0.5);
 			send(p1, buffer, strlen(buffer), 0);
 			send(p2, buffer, strlen(buffer), 0);
 		}
+
+bool comprobarcasilla(char letras, int numero,char usuario,int socket,Tablero tablero)
+		{
+			_tablero=tablero;
+			int posicion=0;
+			char letra;
+			letra = tolower(letras);
+			
+
+			switch(letra)
+			{
+				case 'a':
+				{
+					posicion=0;
+				break;
+				}
+				case 'b':
+				{
+					posicion=1;
+				break;
+				}
+				case 'c':
+				{
+					posicion=2;
+				break;
+				}
+				case 'd':
+				{
+					posicion=3;
+				break;
+				}
+				case 'e':
+				{
+					posicion=4;
+				break;
+				}
+				case 'f':
+				{
+					posicion=5;
+				break;
+				}
+				case 'g':
+				{
+					posicion=6;
+				break;
+				}
+				case 'h':
+				{
+					posicion=7;
+				break;
+				}
+				case 'i':
+				{
+					posicion=8;
+				break;
+				}
+				case 'j':
+				{
+					posicion=9;
+				break;
+				}
+			}
+
+			if (_tablero.getSol(numero-1,posicion)=="*")
+			{
+				return false;
+			}
+
+_tablero.setPos(numero-1,posicion,usuario,socket);
+return true;
+}
 
 };
 

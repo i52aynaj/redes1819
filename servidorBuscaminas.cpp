@@ -284,7 +284,9 @@ int main(){
                                                         }
                                                     else
                                                         {
-                                                            if ( devuelve[3] )
+                                                            send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
+                                                         
+                                                            if ( devuelve[3]==0 )
                                                             {
                                                             valor=9;
                                                             }
@@ -293,22 +295,16 @@ int main(){
                                                             valor=(devuelve[2] - '0');
                                                             }
 
-
-                                                            if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
-                                                            prim='A';
-
-                                                            if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
-                                                            prim='B';
-
-                                                            if (partidas[contador_partidas-1].getTablero().comprobarcasilla(devuelve[0],valor,prim,i)) // Se elige una casilla sin bomba y se muestra el tablero actualizado.
+                                                            if (partidas[contador_partidas-1].comprobarcasilla(devuelve[0],valor,prim,i,partidas[contador_partidas-1].getTablero())) // Se elige una casilla sin bomba y se muestra el tablero actualizado.
                                                             {
+
                                                                 //Cambiamos de turno.
                                                                 int turno1=0;
                                                                 turno1=primero;
                                                                 primero=segundo;
                                                                 segundo=turno1;
                                                                 partidas[contador_partidas-1].enviarTablero(primero, segundo);
-                                                                send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
+                                                                
 
                                                             }
                                                             else //En este caso se ha descubierto una bomba y acaba la partida.
@@ -344,6 +340,11 @@ int main(){
                                 }
                                 else if (strncmp(buffer, "PONER-BANDERA",9) == 0)
                                 {
+                                    if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
+                                    prim='A';
+
+                                    if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
+                                    prim='B';
 
                                 }
                                 /*else if(strcmp(buffer, " ") != 0){
