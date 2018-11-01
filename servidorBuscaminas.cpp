@@ -267,6 +267,8 @@ int main(){
                                     if(primero > 0 and segundo > 0)
                                         sleep(0.5);
                                         partidas[contador_partidas-1].enviarTablero(primero, segundo);
+                                        sleep(0.5);
+                                        send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
 
                                 }else if (strncmp(buffer, "DESCUBRIR",9) == 0 )
                                     {
@@ -284,7 +286,7 @@ int main(){
                                                         }
                                                     else
                                                         {
-                                                            send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
+                                                            
                                                          
                                                             if ( devuelve[3]==0 )
                                                             {
@@ -303,7 +305,11 @@ int main(){
                                                                 turno1=primero;
                                                                 primero=segundo;
                                                                 segundo=turno1;
+                                                                sleep(0.5);
+                                                                bzero(buffer,sizeof(buffer));
                                                                 partidas[contador_partidas-1].enviarTablero(primero, segundo);
+                                                                sleep(0.5);
+                                                                send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
                                                                 
 
                                                             }

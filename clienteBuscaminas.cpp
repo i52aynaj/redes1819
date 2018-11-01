@@ -90,14 +90,13 @@ Descriptor del socket y buffer de datos
 
 	        strcpy(buffer2,buffer);
 	        opcion = strtok(buffer2, ",");
-	        std::cout<<opcion<<std::endl;
 
 	        if ( strcmp(opcion, "A")==0 or strcmp(opcion, "B")==0 or strcmp(opcion, "AB")==0 or strcmp(opcion, "-")==0)
 	        {
 
 	        	dibujartablero(buffer);
 	        }
-			else if (opcion=="0" or opcion=="1" or opcion=="2" or opcion=="3" or opcion=="4" or opcion=="5" or opcion=="6" or opcion=="7" or opcion=="8")
+			else if ( strcmp(opcion, "0")==0 or strcmp(opcion, "1")==0 or strcmp(opcion, "2")==0 or strcmp(opcion, "3")==0 or strcmp(opcion, "4")==0 or strcmp(opcion, "5")==0 or strcmp(opcion, "6")==0 or strcmp(opcion, "7")==0 or strcmp(opcion, "8")==0 )
 	        {
 	        	dibujartablero(buffer);
 	        }
