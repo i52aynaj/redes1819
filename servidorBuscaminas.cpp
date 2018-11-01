@@ -286,8 +286,7 @@ int main(){
                                                         {
                                                             if ( devuelve[3] )
                                                             {
-                                                            valor=10;
-                                                            printf("%d\n",valor);
+                                                            valor=9;
                                                             }
                                                             else
                                                             {
@@ -308,6 +307,7 @@ int main(){
                                                                 turno1=primero;
                                                                 primero=segundo;
                                                                 segundo=turno1;
+                                                                partidas[contador_partidas-1].enviarTablero(primero, segundo);
                                                                 send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
 
                                                             }
