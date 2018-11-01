@@ -40,6 +40,7 @@ class Partida
 			char buffer[512];
 			char aux[512];
 
+			bzero(buffer,sizeof(buffer));
 			sprintf(buffer, "");
 
 

@@ -91,9 +91,10 @@ Descriptor del socket y buffer de datos
 	        strcpy(buffer2,buffer);
 	        opcion = strtok(buffer2, ",");
 
+
 	        if ( strcmp(opcion, "A")==0 or strcmp(opcion, "B")==0 or strcmp(opcion, "AB")==0 or strcmp(opcion, "-")==0)
 	        {
-	        	std::cout << "DIbujar tablero" << std::endl;
+
 	        	dibujartablero(buffer);
 	        }
 	        else

@@ -262,6 +262,7 @@ int main(){
                                             }
                                         }
                                     if(primero > 0 and segundo > 0)
+                                        sleep(0.5);
                                         partidas[contador_partidas-1].enviarTablero(primero, segundo);
 
                                 }else if (strncmp(buffer, "DESCUBRIR",9) == 0 )
