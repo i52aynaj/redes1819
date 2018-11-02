@@ -22,6 +22,7 @@ using namespace std;
 void manejador(int signum);
 std::vector<string> leercadena(string cadena);
 bool comprobar(char letra ,int posicion);
+int salirCliente(vector<Jugador> jugadores,int primero,int numClientes);
 
 int main(){
 
@@ -272,7 +273,7 @@ int main(){
                                     }
                 
 
-                                }else if (strncmp(buffer, "DESCUBRIR",9) == 0 )
+                                }else if (strncmp(buffer, "DESCUBRIR",9) == 0 and jugadores[j].isValidated() )
                                     {
                                         
                                         opcion = leercadena(buffer);
@@ -280,7 +281,7 @@ int main(){
 
                                         int valor=0;      
 
-                                                if (i==primero)
+                                                if (i==primero )
                                                 {
                                                     if (not comprobar(devuelve[0],devuelve[2]) )
                                                         {
@@ -292,7 +293,7 @@ int main(){
                                                          
                                                             if ( devuelve[3]==0 )
                                                             {
-                                                            valor=9;
+                                                            valor=10;
                                                             }
                                                             else
                                                             {
@@ -324,6 +325,11 @@ int main(){
 
                                                                     send(primero,enviar,strlen(enviar),0);
                                                                     send(segundo,enviar,strlen(enviar),0);
+                                                                    numClientes = salirCliente(jugadores,primero,numClientes);
+                                                                    numClientes = salirCliente(jugadores,segundo,numClientes);
+                                                                    partidas[contador_partidas-1].libermemoria();
+                                                                    contador_partidas--;
+                                                                    
                                                                 }
                                                                 
                                                                 if (partidas[contador_partidas-1].getJugador2().getIdentifier()==primero)
@@ -333,6 +339,12 @@ int main(){
 
                                                                     send(primero,enviar,strlen(enviar),0);
                                                                     send(segundo,enviar,strlen(enviar),0);
+                                                                    close(partidas[contador_partidas-1].getJugador2().getIdentifier());
+                                                                    numClientes = salirCliente(jugadores,primero,numClientes);
+                                                                    numClientes = salirCliente(jugadores,segundo,numClientes);
+                                                                    partidas[contador_partidas-1].libermemoria();
+                                                                    contador_partidas--;
+                                                                    
                                                                 }
 
 
@@ -415,24 +427,21 @@ salirCliente(i,&readfds,&numClientes,arrayClientes);
 	
 }
 
-void salirCliente(int socket, fd_set * readfds, int * numClientes, int arrayClientes[]){
-  
-    char buffer[250];
+int  salirCliente(vector<Jugador> jugadores,int socket,int numClientes)
+{
+
     int j;
     
-    close(socket);
-    FD_CLR(socket,readfds);
-    
     //Re-estructurar el array de clientes
-    for (j = 0; j < (*numClientes) - 1; j++)
-        if (arrayClientes[j] == socket)
-            break;
-    for (; j < (*numClientes) - 1; j++)
-        (arrayClientes[j] = arrayClientes[j+1]);
-    
-    (*numClientes)--;
+    for (j = 0; j < numClientes - 1; j++)
+    {
+        if (jugadores[j].getIdentifier() == socket)
+        {
+            jugadores[j].setvalidate(false);
+        }
+    }
 
-
+return numClientes-1;
 }
 
 std::vector<string> leercadena(string cadena)

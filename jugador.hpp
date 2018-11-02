@@ -42,6 +42,8 @@ class Jugador{
 
 		void validate(){_validado = true;}
 
+		void setvalidate(bool validado){_validado = validado;}
+
 
 
 		void logIn(string usuario, string password){

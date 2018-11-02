@@ -31,6 +31,10 @@ class Partida
 
 		//Modificadores
 		
+		void libermemoria()
+		{
+			Partida();
+		}
 		void setJugador1(Jugador jugador){_jugador1 = jugador;}
 		void setJugador2(Jugador jugador){_jugador2 = jugador;}
 		void setId(int id){_id = id;}
