@@ -265,10 +265,12 @@ int main(){
                                             }
                                         }
                                     if(primero > 0 and segundo > 0)
-                                        sleep(0.5);
+                                    {
                                         partidas[contador_partidas-1].enviarTablero(primero, segundo);
                                         sleep(0.5);
                                         send(primero,"\e[2;91m __Su turno__\e[0m",strlen("\e[2;91m __Su turno__\e[0m") ,0);
+                                    }
+                
 
                                 }else if (strncmp(buffer, "DESCUBRIR",9) == 0 )
                                     {
@@ -315,23 +317,24 @@ int main(){
                                                             }
                                                             else //En este caso se ha descubierto una bomba y acaba la partida.
                                                             {
-                                                                if (partidas[contador_partidas].getJugador1().getIdentifier()==primero)
+                                                                if (partidas[contador_partidas-1].getJugador1().getIdentifier()==primero)
                                                                 {
-                                                                    string envia="Jugador "+partidas[contador_partidas].getJugador1().getUser()+" ha perdido la partida";
+                                                                    string envia="Jugador "+partidas[contador_partidas-1].getJugador1().getUser()+" ha perdido la partida";
                                                                     const char *enviar=envia.c_str();
 
-                                                                    send(primero,enviar,sizeof(enviar),0);
-                                                                    send(segundo,enviar,sizeof(enviar),0);
+                                                                    send(primero,enviar,strlen(enviar),0);
+                                                                    send(segundo,enviar,strlen(enviar),0);
                                                                 }
                                                                 
-                                                                if (partidas[contador_partidas].getJugador2().getIdentifier()==primero)
+                                                                if (partidas[contador_partidas-1].getJugador2().getIdentifier()==primero)
                                                                 {
-                                                                    string envia="Jugador "+partidas[contador_partidas].getJugador2().getUser()+" ha perdido la partida";
+                                                                    string envia="Jugador "+partidas[contador_partidas-1].getJugador2().getUser()+" ha perdido la partida";
                                                                     const char *enviar=envia.c_str();
 
-                                                                    send(primero,enviar,sizeof(enviar),0);
-                                                                    send(segundo,enviar,sizeof(enviar),0);
+                                                                    send(primero,enviar,strlen(enviar),0);
+                                                                    send(segundo,enviar,strlen(enviar),0);
                                                                 }
+
 
                                                             }
                                                         }
@@ -428,13 +431,6 @@ void salirCliente(int socket, fd_set * readfds, int * numClientes, int arrayClie
         (arrayClientes[j] = arrayClientes[j+1]);
     
     (*numClientes)--;
-    
-    bzero(buffer,sizeof(buffer));
-    sprintf(buffer,"Desconexión del cliente: %d\n",socket);
-    
-    for(j=0; j<(*numClientes); j++)
-        if(arrayClientes[j] != socket)
-            send(arrayClientes[j],buffer,strlen(buffer),0);
 
 
 }

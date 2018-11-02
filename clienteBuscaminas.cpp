@@ -143,7 +143,7 @@ void dibujartablero(char *cadena)
 {
 int t=0;
 std::cout << "\33[2J";
-printf (" A B C D E F G H I J\n ---------------------");
+printf ("   A B C D E F G H I J\n ---------------------");
 
 	for (int i=0; i<10; i++)
 	{
